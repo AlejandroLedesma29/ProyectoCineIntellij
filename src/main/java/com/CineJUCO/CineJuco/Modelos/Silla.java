@@ -13,8 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
     String letra;
     int numero;
     @DBRef
-    Boleto boleto;
-    @DBRef
     Sala sala;
 
     public Silla(String letra, int numero) {
@@ -50,11 +48,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
         this.numero = numero;
     }
 
-    public Boleto getBoleto() {
-        return boleto;
-    }
 
-    public void setBoleto(Boleto boleto) {
-        this.boleto = boleto;
-    }
 }

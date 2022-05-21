@@ -19,9 +19,20 @@ public class Boleto {
     @DBRef
     Funcion funcion;
 
+    @DBRef
+    Silla silla;
+
     public Boleto(double valor, String tipo) {
         this.valor = valor;
         this.tipo = tipo;
+    }
+
+    public Silla getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Silla silla) {
+        this.silla = silla;
     }
 
     public Funcion getFuncion() {
