@@ -22,8 +22,6 @@ public class ControladorSilla {
     @Autowired
     private RepositorioSala miRepositorioSala;
 
-    @Autowired
-    private RepositorioBoleto miRepositorioBoleto;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -59,22 +57,12 @@ public class ControladorSilla {
                 .findById(id)
                 .orElseThrow(RuntimeException::new);
         sillaActual.setLetra(infoSilla.getLetra());
-        infoSilla.setNumero(infoSilla.getNumero());
-        return this.miRepositorioSilla.save(infoSilla);
-    }
-
-    @PutMapping("{id_silla}/boleto/{id_boleto}")
-    public Silla updateBoleto(@PathVariable String id_silla, @PathVariable String id_boleto){
-        Silla sillaActual=this.miRepositorioSilla
-                .findById(id_silla)
-                .orElseThrow(RuntimeException::new);
-        Boleto boletoActual=this.miRepositorioBoleto
-                .findById(id_boleto)
-                .orElseThrow(RuntimeException::new);
-        sillaActual.setBoleto(boletoActual);
+        sillaActual.setNumero(infoSilla.getNumero());
         return this.miRepositorioSilla.save(sillaActual);
     }
-    @PutMapping("{id_silla}/departamento/{id_sala}")
+
+
+    @PutMapping("{id_silla}/sala/{id_sala}")
     public Silla updateSala(@PathVariable String id_silla, @PathVariable String id_sala){
         Silla sillaActual=this.miRepositorioSilla
                 .findById(id_silla)

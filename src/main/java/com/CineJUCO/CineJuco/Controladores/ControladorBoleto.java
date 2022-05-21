@@ -1,10 +1,9 @@
 package com.CineJUCO.CineJuco.Controladores;
 
-import com.CineJUCO.CineJuco.Modelos.Boleto;
-import com.CineJUCO.CineJuco.Modelos.Funcion;
-import com.CineJUCO.CineJuco.Modelos.Usuario;
+import com.CineJUCO.CineJuco.Modelos.*;
 import com.CineJUCO.CineJuco.Repositorios.RepositorioBoleto;
 import com.CineJUCO.CineJuco.Repositorios.RepositorioFuncion;
+import com.CineJUCO.CineJuco.Repositorios.RepositorioSilla;
 import com.CineJUCO.CineJuco.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +24,24 @@ public class ControladorBoleto {
     @Autowired
     RepositorioFuncion miRepositorioFuncion;
 
+    @Autowired
+    RepositorioSilla miRepositorioSilla;
+
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Boleto create(@RequestBody Boleto infoBoleto) {
+    @PostMapping("/funcion/{id_funcion}/usuario/{id_usuario}/silla/{id_silla}")
+    public Boleto create(@RequestBody Boleto infoBoleto, @PathVariable String id_funcion, @PathVariable String id_usuario, @PathVariable String id_silla) {
+        Funcion funcionActual=this.miRepositorioFuncion
+                .findById(id_funcion)
+                .orElseThrow(RuntimeException::new);
+        Silla sillaActual=this.miRepositorioSilla
+                .findById(id_silla)
+                .orElseThrow(RuntimeException::new);
+        Usuario usuarioActual = this.miRepositorioUsuario
+                .findById(id_usuario)
+                .orElseThrow(RuntimeException::new);
+        infoBoleto.setFuncion(funcionActual);
+        infoBoleto.setSilla(sillaActual);
+        infoBoleto.setUsuario(usuarioActual);
         return this.miRepositorioBoleto.save(infoBoleto);
     }
 
@@ -84,6 +98,18 @@ public class ControladorBoleto {
                 .findById(id_funcion)
                 .orElseThrow(RuntimeException::new);
         boletoActual.setFuncion(funcionActual);
+        return this.miRepositorioBoleto.save(boletoActual);
+    }
+
+    @PutMapping("{id_boleto}/silla/{id_silla}")
+    public Boleto updateSilla(@PathVariable String id_boleto, @PathVariable String id_silla){
+        Boleto boletoActual=this.miRepositorioBoleto
+                .findById(id_boleto)
+                .orElseThrow(RuntimeException::new);
+        Silla sillaActual=this.miRepositorioSilla
+                .findById(id_silla)
+                .orElseThrow(RuntimeException::new);
+        boletoActual.setSilla(sillaActual);
         return this.miRepositorioBoleto.save(boletoActual);
     }
 }
