@@ -28,20 +28,8 @@ public class ControladorBoleto {
     RepositorioSilla miRepositorioSilla;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/funcion/{id_funcion}/usuario/{id_usuario}/silla/{id_silla}")
-    public Boleto create(@RequestBody Boleto infoBoleto, @PathVariable String id_funcion, @PathVariable String id_usuario, @PathVariable String id_silla) {
-        Funcion funcionActual=this.miRepositorioFuncion
-                .findById(id_funcion)
-                .orElseThrow(RuntimeException::new);
-        Silla sillaActual=this.miRepositorioSilla
-                .findById(id_silla)
-                .orElseThrow(RuntimeException::new);
-        Usuario usuarioActual = this.miRepositorioUsuario
-                .findById(id_usuario)
-                .orElseThrow(RuntimeException::new);
-        infoBoleto.setFuncion(funcionActual);
-        infoBoleto.setSilla(sillaActual);
-        infoBoleto.setUsuario(usuarioActual);
+    @PostMapping
+    public Boleto create(@RequestBody Boleto infoBoleto) {
         return this.miRepositorioBoleto.save(infoBoleto);
     }
 

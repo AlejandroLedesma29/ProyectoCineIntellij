@@ -1,6 +1,7 @@
 package com.CineJUCO.CineJuco.Controladores;
 
 import com.CineJUCO.CineJuco.Modelos.Pelicula;
+import com.CineJUCO.CineJuco.Modelos.Usuario;
 import com.CineJUCO.CineJuco.Repositorios.RepositorioPelicula;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,11 @@ public class ControladorPelicula {
         peliculaActual.setAno(infoPelicula.getAno());
         peliculaActual.setTipo(infoPelicula.getTipo());
         return this.miRepositorioPelicula.save(peliculaActual);
+    }
+
+    @GetMapping("/nombre/{nombre}")
+    public Pelicula buscarPorNombre(@PathVariable String nombre){
+        Pelicula PeliculaActual=this.miRepositorioPelicula.getPeliculaPorNombre(nombre);
+        return PeliculaActual;
     }
 }
